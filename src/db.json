@@ -117,12 +117,14 @@
     {
       "id": 1,
       "email": "admin@bookly.com",
-      "password": "admin123"
+      "password": "admin123",
+      "role": "admin"
     },
     {
       "email": "john@example.com",
       "password": "john123",
-      "id": 2
+      "id": 2,
+      "role": "user"
     }
   ]
 }
