@@ -1,18 +1,12 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "@/pages/user/Dashboard";
 import Profile from "@/pages/user/Dashboard";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import ManageUsers from "@/pages/admin/ManageUsers";
-import Login from "@/app components/Login";
-import RegisterForm from "@/app components/RegisterForm.tsx";
 
 import AdminRoutes from "./AdminRoutes";
+import Login from "@/pages/auth/Login";
+import RegisterForm from "@/pages/auth/RegisterForm.tsx";
 
 const AppRoutes = () => {
   return (

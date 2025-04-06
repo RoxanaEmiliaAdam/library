@@ -6,8 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useMutation } from "@tanstack/react-query";
-
-import { fetchUsers } from "@/postService";
+import { logIn } from "./loginService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,14 +16,13 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const loginMutation = useMutation({
-    mutationFn: fetchUsers,
-    onSuccess: (users) => {
-      const user = users.find(
-        (u) => u.email === email && u.password === password
-      );
+    mutationFn: () => logIn({ email, password }),
+    onSuccess: (user) => {
+      console.log(user);
 
       if (user) {
-        localStorage.setItem("user", JSON.stringify(user)); // store user info
+        console.log(user);
+        localStorage.setItem("userEmail", JSON.stringify(user.email)); // store user info
         navigate(
           user.email === "admin@bookly.com"
             ? "/admin/dashboard"

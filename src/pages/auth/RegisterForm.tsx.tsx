@@ -41,7 +41,6 @@ const RegisterForm = () => {
     }
     mutation.mutate({ email, password });
   };
-
   return (
     <div className="flex justify-center items-center min-h-screen">
       <Card className="w-full max-w-sm p-6 shadow-lg">

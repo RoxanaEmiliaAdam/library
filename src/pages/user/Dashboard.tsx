@@ -1,19 +1,17 @@
-import React from "react";
-import { useAuth } from "@/routes/Context";
 import { useNavigate } from "react-router-dom";
-import Login from "../../app components/Login";
+
 import { Button } from "@/components/ui/button";
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const userEmail = localStorage.getItem("userEmail");
   const navigate = useNavigate();
 
   return (
     <div>
-      <h1>Welcome, {user?.email}!</h1>
+      <h1>Welcome, {userEmail}!</h1>
       <Button
         onClick={() => {
-          logout();
+          // logout();
           navigate("/login");
         }}
       >
