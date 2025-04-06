@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
+import { logOut } from "../auth/LoginService";
 
 const Dashboard = () => {
   const userEmail = localStorage.getItem("userEmail");
@@ -11,7 +12,7 @@ const Dashboard = () => {
       <h1>Welcome, {userEmail}!</h1>
       <Button
         onClick={() => {
-          // logout();
+          logOut();
           navigate("/login");
         }}
       >

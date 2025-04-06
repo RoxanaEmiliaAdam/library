@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+
 import { fetchUsers } from "@/postService";
 import { IUser } from "@/interfaces/IUser";
 import {

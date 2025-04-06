@@ -15,3 +15,7 @@ export const logIn = async (props: LoginProps): Promise<IUser> => {
   const response = await axios.get(usersURL + query);
   return response.data[0];
 };
+
+export const logOut = () => {
+  localStorage.setItem("userEmail", "");
+};

@@ -11,12 +11,13 @@ const AdminRoutes: React.FC<ProtectedRouteProps> = ({
   adminOnly = false,
 }) => {
   const userEmail = localStorage.getItem("userEmail");
+  const userRole = localStorage.getItem("userRole");
   if (!userEmail) {
     return <Navigate to="/login" replace />;
   }
-  //   if (adminOnly && !user.isAdmin) {
-  //     return <Navigate to="/unauthorized" replace />;
-  //   }
+  if (adminOnly && userRole === "admin") {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
   return children;
 };

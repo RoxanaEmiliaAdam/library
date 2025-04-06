@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useMutation } from "@tanstack/react-query";
-import { logIn } from "./loginService";
+import { logIn } from "./LoginService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,6 +23,7 @@ const Login = () => {
       if (user) {
         console.log(user);
         localStorage.setItem("userEmail", JSON.stringify(user.email)); // store user info
+        localStorage.setItem("userRole", JSON.stringify(user.role));
         navigate(
           user.email === "admin@bookly.com"
             ? "/admin/dashboard"
