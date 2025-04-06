@@ -1,9 +1,8 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "./Context";
 
 interface ProtectedRouteProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   adminOnly?: boolean;
 }
 
@@ -11,14 +10,13 @@ const AdminRoutes: React.FC<ProtectedRouteProps> = ({
   children,
   adminOnly = false,
 }) => {
-  const { user } = useAuth();
-
-  if (!user) {
+  const userEmail = localStorage.getItem("userEmail");
+  if (!userEmail) {
     return <Navigate to="/login" replace />;
   }
-  if (adminOnly && !user.isAdmin) {
-    return <Navigate to="/unauthorized" replace />;
-  }
+  //   if (adminOnly && !user.isAdmin) {
+  //     return <Navigate to="/unauthorized" replace />;
+  //   }
 
   return children;
 };

@@ -121,9 +121,8 @@
     },
     {
       "email": "john@example.com",
-      "password": "123",
+      "password": "john123",
       "id": 2
     }
   ]
 }
-
