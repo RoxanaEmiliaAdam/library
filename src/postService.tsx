@@ -1,6 +1,6 @@
 import axios from "axios";
 import { IBook } from "./interfaces/interface IBook";
-import { IUser } from "./interfaces/IUser";
+import { IUser } from "./pages/auth/IUser";
 
 // books fetch
 const axiosURL = axios.create({
