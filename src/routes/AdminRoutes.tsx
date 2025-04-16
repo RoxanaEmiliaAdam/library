@@ -15,7 +15,7 @@ const AdminRoutes: React.FC<ProtectedRouteProps> = ({
   if (!userEmail) {
     return <Navigate to="/login" replace />;
   }
-  if (adminOnly && userRole === "admin") {
+  if (adminOnly && userRole !== "admin") {
     return <Navigate to="/unauthorized" replace />;
   }
 

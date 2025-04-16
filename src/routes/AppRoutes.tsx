@@ -7,6 +7,7 @@ import ManageUsers from "@/pages/admin/ManageUsers";
 import AdminRoutes from "./AdminRoutes";
 import Login from "@/pages/auth/Login";
 import RegisterForm from "@/pages/auth/RegisterForm.tsx";
+import Cart from "@/pages/user/cart/Cart";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
             </AdminRoutes>
           }
         />
+        <Route path="/user/cart" element={<Cart />} />
         <Route path="/user/profile" element={<Profile />} />
         // admin Routes
         <Route

@@ -1,4 +1,4 @@
-import { IUser } from "@/interfaces/IUser";
+import { IUser } from "./IUser";
 import axios from "axios";
 
 type LoginProps = {
