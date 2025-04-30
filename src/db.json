@@ -125,11 +125,28 @@
       "password": "john123",
       "id": 2,
       "role": "user"
-    },
+    }
+  ],
+  "cart": [
     {
-      "email": "irene@example.com",
-      "password": "123",
-      "id": 3
+      "userEmail": "john@example.com",
+      "cartBooksList": [],
+      "id": 1
+    }
+  ],
+  "orders": [
+    {
+      "items": [
+        {
+          "id": 3,
+          "title": "Harry Potter and the Order of the Phoenix",
+          "returnDate": "2025-05-14",
+          "coverImage": "http://localhost:3000/images/book-9.png"
+        }
+      ],
+      "status": "pending",
+      "createdAt": "2025-04-30T11:29:05.913Z",
+      "id": 1
     }
   ]
 }

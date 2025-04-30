@@ -24,6 +24,7 @@ const Login = () => {
         console.log(user);
         localStorage.setItem("userEmail", JSON.stringify(user.email)); // store user info
         localStorage.setItem("userRole", JSON.stringify(user.role));
+
         navigate(
           user.email === "admin@bookly.com"
             ? "/admin/dashboard"

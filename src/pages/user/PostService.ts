@@ -1,6 +1,6 @@
 import axios from "axios";
-import { IBook } from "./interfaces/interface IBook";
-import { IUser } from "./pages/auth/IUser";
+import { IBook } from "./IBook";
+import { IUser } from "../auth/IUser";
 
 // books fetch
 const axiosURL = axios.create({
@@ -10,8 +10,19 @@ const axiosURL = axios.create({
   },
 });
 
-const getAllBooks = async (): Promise<IBook[]> => {
-  const response = await axiosURL.get("/books");
+const getAllBooks = async (
+  search?: string,
+  category?: string
+): Promise<IBook[]> => {
+  const params: Record<string, string> = {};
+
+  // full search
+  if (search) params.q = search;
+
+  // filter by category
+  if (category && category !== "all") params.category = category;
+
+  const response = await axiosURL.get("/books", { params });
   return response.data;
 };
 
