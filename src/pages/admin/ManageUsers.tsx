@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-
-import { fetchUsers } from "@/postService";
-import { IUser } from "@/interfaces/IUser";
+import { fetchUsers } from "../user/PostService";
+import { IUser } from "../auth/IUser";
 import {
   Table,
   TableHeader,

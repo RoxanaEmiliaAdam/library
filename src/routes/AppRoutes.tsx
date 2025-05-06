@@ -1,20 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "@/pages/user/Dashboard";
-import Profile from "@/pages/user/Dashboard";
+
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import ManageUsers from "@/pages/admin/ManageUsers";
 
 import AdminRoutes from "./AdminRoutes";
 import Login from "@/pages/auth/Login";
-import RegisterForm from "@/pages/auth/RegisterForm.tsx";
+
 import Cart from "@/pages/user/cart/Cart";
+import Profile from "@/pages/user/profile/Profile";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegisterForm />} />
         // user Routes
         <Route
           path="/user/dashboard"
