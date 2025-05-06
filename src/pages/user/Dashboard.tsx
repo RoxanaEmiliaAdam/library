@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,18 +9,18 @@ import { logOut } from "../auth/LoginService";
 import FetchBooks from "./FetchBooks";
 import { ILendItem } from "./ILendItem";
 import { IBook } from "./IBook";
-import { fetchCart, addToCart } from "./cart/CartService";
+import { fetchCart, addItemToCart, createNewCart } from "./cart/CartService";
 import { ICart } from "./cart/ICart";
+import { queryClient } from "@/main";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("all");
-  const [addedBooks, setAddedBooks] = useState<number[]>([]);
 
   const userEmail = JSON.parse(localStorage.getItem("userEmail") || '""');
+  const userId = JSON.parse(localStorage.getItem("userId") || "0");
 
   const { data: cartData } = useQuery<ICart | null>({
     queryKey: ["cart", userEmail],
@@ -28,15 +28,8 @@ const Dashboard: React.FC = () => {
     enabled: !!userEmail,
   });
 
-  useEffect(() => {
-    if (cartData && Array.isArray(cartData.cartBooksList)) {
-      const ids = cartData.cartBooksList.map((item) => item.id);
-      setAddedBooks(ids);
-    }
-  }, [cartData]);
-
   const { mutate: addToCartMutation } = useMutation({
-    mutationFn: (book: IBook) => {
+    mutationFn: async (book: IBook) => {
       const returnDate = new Date();
       returnDate.setDate(returnDate.getDate() + 14);
 
@@ -47,7 +40,11 @@ const Dashboard: React.FC = () => {
         coverImage: book.coverImage,
       };
 
-      return addToCart(userEmail, lendItem);
+      if (cartData) {
+        return await addItemToCart(cartData, lendItem);
+      } else {
+        return await createNewCart(userEmail, userId, lendItem);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart", userEmail] });
@@ -79,7 +76,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleAddToCart = (book: IBook) => {
-    if (!addedBooks.includes(book.id)) {
+    if (!cartData?.cartBooksList.some((item) => item.id === book.id)) {
       addToCartMutation(book);
     }
   };
@@ -126,7 +123,7 @@ const Dashboard: React.FC = () => {
         search={search}
         category={category}
         handleAddToCart={handleAddToCart}
-        addedBooks={addedBooks}
+        addedBooks={cartData?.cartBooksList.map((item) => item.id) || []}
       />
     </div>
   );

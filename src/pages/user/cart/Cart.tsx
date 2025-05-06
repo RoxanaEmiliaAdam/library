@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import {
   Dialog,
@@ -22,14 +22,13 @@ import { createOrder } from "../profile/OrderService";
 import { ICart } from "./ICart";
 import { ILendItem } from "../ILendItem";
 import ReturnToBookListButton from "@/app_components/ReturnToBookListButton";
+import { queryClient } from "@/main";
 
 const Cart: React.FC = () => {
-  const queryClient = useQueryClient();
   const userEmail = JSON.parse(localStorage.getItem("userEmail") || '""');
 
   const [successMessage, setSuccessMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const { data: cartData, isLoading } = useQuery<ICart | null>({
     queryKey: ["cart", userEmail],
@@ -42,30 +41,29 @@ const Cart: React.FC = () => {
     queryClient.invalidateQueries({ queryKey: ["cart", userEmail] });
   };
 
-  const handlePlaceOrder = async () => {
-    if (!cartData || cartData.cartBooksList.length === 0) return;
-
-    try {
-      setIsPlacingOrder(true);
+  const placeOrderMutation = useMutation({
+    mutationFn: async () => {
+      if (!cartData || cartData.cartBooksList.length === 0) return;
 
       // 1. Create the order
       await createOrder(cartData.userId, cartData.cartBooksList);
 
       // 2. Clear the cart
       await removeCart(cartData.id);
-
-      // 3. Update UI
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart", userEmail] });
       setIsDialogOpen(false);
       setSuccessMessage("✅ Order placed successfully!");
-    } catch (error) {
+
+      setTimeout(() => setSuccessMessage(""), 5000);
+    },
+    onError: (error) => {
       console.error("Error placing order", error);
       setSuccessMessage("❌ Failed to place order.");
-    } finally {
-      setIsPlacingOrder(false);
       setTimeout(() => setSuccessMessage(""), 5000);
-    }
-  };
+    },
+  });
 
   const cartItems = cartData?.cartBooksList || [];
 
@@ -119,16 +117,16 @@ const Cart: React.FC = () => {
                 <Button
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
-                  disabled={isPlacingOrder}
+                  disabled={placeOrderMutation.isPending}
                 >
                   Cancel
                 </Button>
                 <Button
                   variant="destructive"
-                  onClick={handlePlaceOrder}
-                  disabled={isPlacingOrder}
+                  onClick={() => placeOrderMutation.mutate()}
+                  disabled={placeOrderMutation.isPending}
                 >
-                  {isPlacingOrder ? "Placing..." : "Confirm"}
+                  {placeOrderMutation.isPending ? "Placing..." : "Confirm"}
                 </Button>
               </DialogFooter>
             </DialogContent>

@@ -127,13 +127,7 @@
       "role": "user"
     }
   ],
-  "cart": [
-    {
-      "userEmail": "john@example.com",
-      "cartBooksList": [],
-      "id": 1
-    }
-  ],
+  "cart": [],
   "orders": [
     {
       "items": [
@@ -147,6 +141,25 @@
       "status": "pending",
       "createdAt": "2025-04-30T11:29:05.913Z",
       "id": 1
+    },
+    {
+      "items": [
+        {
+          "id": 2,
+          "title": "The Hunger Games",
+          "returnDate": "2025-05-20",
+          "coverImage": "http://localhost:3000/images/book-8.png"
+        },
+        {
+          "id": 1,
+          "title": "The First Days",
+          "returnDate": "2025-05-20",
+          "coverImage": "http://localhost:3000/images/book-7.png"
+        }
+      ],
+      "status": "pending",
+      "createdAt": "2025-05-06T11:45:59.409Z",
+      "id": 2
     }
   ]
 }
