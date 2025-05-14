@@ -8,7 +8,8 @@ type Props = {
   search: string;
   category: string;
   handleAddToCart: (book: IBook) => void;
-  addedBooks: number[];
+  addedBooks?: number[];
+  isAdmin?: boolean;
 };
 
 const FetchBooks: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const FetchBooks: React.FC<Props> = ({
   category,
   handleAddToCart,
   addedBooks,
+  isAdmin = false,
 }) => {
   const {
     data: books,
@@ -56,14 +58,19 @@ const FetchBooks: React.FC<Props> = ({
                 />
               </CardContent>
               <CardContent>
-                <Button
-                  variant="destructive"
-                  className="w-full mt-2"
-                  disabled={addedBooks.includes(book.id)}
-                  onClick={() => handleAddToCart(book)}
-                >
-                  {addedBooks.includes(book.id) ? "Added" : "Add to Cart"}
-                </Button>
+                {isAdmin ? (
+                  <div className="mt-2 text-sm text-gray-600">
+                    Stock: {book.stock} pcs
+                  </div>
+                ) : (
+                  <Button
+                    disabled={addedBooks?.includes(book.id)}
+                    onClick={() => handleAddToCart(book)}
+                    className="mt-2"
+                  >
+                    {addedBooks?.includes(book.id) ? "Added" : "Add to Cart"}
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))

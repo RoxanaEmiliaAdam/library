@@ -1,21 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-import { logOut } from "../auth/LoginService";
 import FetchBooks from "./FetchBooks";
 import { ILendItem } from "./ILendItem";
 import { IBook } from "./IBook";
 import { fetchCart, addItemToCart, createNewCart } from "./cart/CartService";
 import { ICart } from "./cart/ICart";
 import { queryClient } from "@/main";
+import DashboardLayout from "@/app_components/DashboardLayout";
 
-const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
-
+const UserDashboard: React.FC = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("all");
 
@@ -62,18 +56,18 @@ const Dashboard: React.FC = () => {
     setCategory(e.target.value);
   };
 
-  const handleLogout = () => {
-    logOut();
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   logOut();
+  //   navigate("/login");
+  // };
 
-  const handleCartClick = () => {
-    navigate("/user/cart");
-  };
+  // const handleCartClick = () => {
+  //   navigate("/user/cart");
+  // };
 
-  const handleProfileClick = () => {
-    navigate("/user/profile");
-  };
+  // const handleProfileClick = () => {
+  //   navigate("/user/profile");
+  // };
 
   const handleAddToCart = (book: IBook) => {
     if (!cartData?.cartBooksList.some((item) => item.id === book.id)) {
@@ -84,7 +78,21 @@ const Dashboard: React.FC = () => {
   return (
     <div className="p-4 space-y-6">
       {/* Top Bar */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
+      <DashboardLayout
+        search={search}
+        onSearchChange={handleSearchChange}
+        category={category}
+        onCategoryChange={handleCategoryChange}
+        isAdmin={false}
+      >
+        <FetchBooks
+          search={search}
+          category={category}
+          handleAddToCart={handleAddToCart}
+          addedBooks={cartData?.cartBooksList.map((book) => book.id) || []}
+        />
+      </DashboardLayout>
+      {/* <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
         <div className="flex gap-2 flex-col md:flex-row w-full">
           <Input
             type="text"
@@ -116,17 +124,17 @@ const Dashboard: React.FC = () => {
             Logout
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Book List */}
-      <FetchBooks
+      {/* <FetchBooks
         search={search}
         category={category}
         handleAddToCart={handleAddToCart}
         addedBooks={cartData?.cartBooksList.map((item) => item.id) || []}
-      />
+      /> */}
     </div>
   );
 };
 
-export default Dashboard;
+export default UserDashboard;

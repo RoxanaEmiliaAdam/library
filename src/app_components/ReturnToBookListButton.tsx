@@ -1,12 +1,17 @@
 // ReturnToBookListButton.tsx
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button"; // Adjust path as needed
+import { Button } from "@/components/ui/button";
 
 const ReturnToBookListButton: React.FC = () => {
   const navigate = useNavigate();
+  const role = JSON.parse(localStorage.getItem("userRole") || '""');
 
   const returnToBookList = () => {
-    navigate("/user/dashboard");
+    if (role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/user/dashboard");
+    }
   };
 
   return (

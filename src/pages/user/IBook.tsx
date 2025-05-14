@@ -4,4 +4,5 @@ export interface IBook {
   description: string;
   category: string;
   coverImage: string;
+  stock: number;
 }

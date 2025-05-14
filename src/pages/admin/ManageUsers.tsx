@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "@/components/ui/table";
+import ReturnToBookListButton from "@/app_components/ReturnToBookListButton";
 
 function ManageUsers() {
   const {
@@ -24,6 +25,7 @@ function ManageUsers() {
   if (error) return <p>Failed to load users.</p>;
   return (
     <div>
+      <ReturnToBookListButton />
       <Table>
         <TableHeader>
           <TableRow>
