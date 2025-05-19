@@ -50,8 +50,10 @@ const Cart: React.FC = () => {
 
       // 2. Clear the cart
       await removeCart(cartData.id);
+      console.log("Cart removed");
     },
     onSuccess: () => {
+      console.log("Order placed, clearing UI...");
       queryClient.invalidateQueries({ queryKey: ["cart", userEmail] });
       setIsDialogOpen(false);
       setSuccessMessage("✅ Order placed successfully!");

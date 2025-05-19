@@ -143,12 +143,6 @@
   ],
   "cart": [
     {
-      "userEmail": "john@example.com",
-      "userId": 2,
-      "cartBooksList": [],
-      "id": 1
-    },
-    {
       "userEmail": "admin@bookly.com",
       "userId": 2,
       "cartBooksList": [],
@@ -157,36 +151,18 @@
   ],
   "orders": [
     {
+      "userId": 2,
       "items": [
-        {
-          "id": 3,
-          "title": "Harry Potter and the Order of the Phoenix",
-          "returnDate": "2025-05-14",
-          "coverImage": "http://localhost:3000/images/book-9.png"
-        }
-      ],
-      "status": "pending",
-      "createdAt": "2025-04-30T11:29:05.913Z",
-      "id": 1
-    },
-    {
-      "items": [
-        {
-          "id": 2,
-          "title": "The Hunger Games",
-          "returnDate": "2025-05-20",
-          "coverImage": "http://localhost:3000/images/book-8.png"
-        },
         {
           "id": 1,
           "title": "The First Days",
-          "returnDate": "2025-05-20",
+          "returnDate": "2025-05-30",
           "coverImage": "http://localhost:3000/images/book-7.png"
         }
       ],
       "status": "pending",
-      "createdAt": "2025-05-06T11:45:59.409Z",
-      "id": 2
+      "createdAt": "2025-05-16T11:17:17.553Z",
+      "id": 1
     }
   ]
 }

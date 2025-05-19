@@ -37,7 +37,7 @@ const AppRoutes = () => {
           }
         />
         <Route path="/admin/manage-users" element={<ManageUsers />} />
-        <Route path="/admin/manage-books" element={<ManageBooks />} />
+        <Route path="/admin/manage-books/:bookId" element={<ManageBooks />} />
         <Route path="/unauthorized" element={<h1>Unauthorized Access</h1>} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>

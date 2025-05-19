@@ -26,8 +26,15 @@ export const createOrder = async (
       orderData
     );
     return response.data;
-  } catch (error) {
-    console.error("Failed to create order", error);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error(
+        "Failed to create order:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
     throw error;
   }
 };

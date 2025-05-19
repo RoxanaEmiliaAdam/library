@@ -4,6 +4,8 @@ import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import getAllBooks from "./PostService";
 
+import { useNavigate } from "react-router-dom";
+
 type Props = {
   search: string;
   category: string;
@@ -19,6 +21,8 @@ const FetchBooks: React.FC<Props> = ({
   addedBooks,
   isAdmin = false,
 }) => {
+  const navigate = useNavigate();
+
   const {
     data: books,
     error,
@@ -44,24 +48,30 @@ const FetchBooks: React.FC<Props> = ({
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
         {books && books.length > 0 ? (
           books.map((book) => (
-            <Card key={book.id} className="max-w-sm">
-              <CardTitle>{book.title}</CardTitle>
-              <CardContent>
-                <h2 className="font-semibold">Category: {book.category}</h2>
-                <p className="text-sm text-muted-foreground">
-                  {book.description}
-                </p>
-                <img
-                  src={book.coverImage}
-                  alt={book.title}
-                  className="w-full h-auto mt-2 rounded-lg"
-                />
-              </CardContent>
+            <Card key={book.id}>
+              <div>
+                <CardTitle>{book.title}</CardTitle>
+                <CardContent>
+                  <h2 className="font-semibold">Category: {book.category}</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {book.description}
+                  </p>
+                  <img
+                    src={book.coverImage}
+                    alt={book.title}
+                    className="w-full h-auto mt-2 rounded-lg"
+                  />
+                </CardContent>
+              </div>
+
               <CardContent>
                 {isAdmin ? (
-                  <div className="mt-2 text-sm text-gray-600">
-                    Stock: {book.stock} pcs
-                  </div>
+                  <Button
+                    variant="destructive"
+                    onClick={() => navigate(`/admin/manage-books/${book.id}`)}
+                  >
+                    Manage Books
+                  </Button>
                 ) : (
                   <Button
                     disabled={addedBooks?.includes(book.id)}
