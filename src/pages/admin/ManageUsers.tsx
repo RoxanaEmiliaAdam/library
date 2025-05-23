@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "../user/PostService";
+import { fetchUsers } from "./ServiceManageUsers";
 import { IUser } from "../auth/IUser";
 import {
   Table,
@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ReturnToBookListButton from "@/app_components/ReturnToBookListButton";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 function ManageUsers() {
   const {
@@ -20,6 +22,8 @@ function ManageUsers() {
     queryKey: ["users"],
     queryFn: fetchUsers,
   });
+
+  const navigate = useNavigate();
 
   if (isLoading) return <p>Loading users...</p>;
   if (error) return <p>Failed to load users.</p>;
@@ -40,6 +44,18 @@ function ManageUsers() {
               <TableCell>{user.id}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.password}</TableCell>
+
+              <TableCell>
+                <Button
+                  onClick={() =>
+                    navigate(
+                      `/admin/manage-users/order-history?userId=${user.id}`
+                    )
+                  }
+                >
+                  Order History
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

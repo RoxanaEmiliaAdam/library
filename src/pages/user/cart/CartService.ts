@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ILendItem } from "../ILendItem";
+import { ILendItem } from "../books/ILendItem";
 import { ICart } from "./ICart";
 
 const cartURL = "http://localhost:3000/cart";

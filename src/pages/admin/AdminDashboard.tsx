@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DashboardLayout from "@/app_components/DashboardLayout";
-import FetchBooks from "../user/FetchBooks";
+import FetchBooks from "../user/books/FetchBooks";
 
 function AdminDashboard() {
   const [search, setSearch] = useState("");

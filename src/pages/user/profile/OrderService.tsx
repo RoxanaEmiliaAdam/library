@@ -9,6 +9,7 @@ export const createOrder = async (
   userId: number,
   items: IOrderItem[]
 ): Promise<IOrder> => {
+  console.log("createOrder called with:", { userId, items });
   try {
     if (items.length === 0) {
       throw new Error("No items in order");
@@ -21,10 +22,8 @@ export const createOrder = async (
       createdAt: new Date().toISOString(),
     };
 
-    const response = await axios.post<IOrder>(
-      "http://localhost:3000/orders",
-      orderData
-    );
+    const response = await axios.post<IOrder>(ordersURL, orderData);
+
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -43,5 +42,20 @@ export const createOrder = async (
 
 export const fetchOrders = async (userId: number): Promise<IOrder[]> => {
   const response = await axios.get<IOrder[]>(`${ordersURL}?userId=${userId}`);
+  return response.data;
+};
+
+// Update order status
+
+export const updateOrderStatus = async (
+  orderId: number,
+  status: string
+): Promise<IOrder> => {
+  const response = await axios.patch(
+    `http://localhost:3000/orders/${orderId}`,
+    {
+      status,
+    }
+  );
   return response.data;
 };

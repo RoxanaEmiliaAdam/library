@@ -1,6 +1,5 @@
 import axios from "axios";
 import { IBook } from "./IBook";
-import { IUser } from "../auth/IUser";
 
 // books fetch
 const axiosURL = axios.create({
@@ -28,15 +27,12 @@ const getAllBooks = async (
 
 export default getAllBooks;
 
-// users fetch and post
-const usersURL = "http://localhost:3000/users";
+// update stock
+export const updateBookStock = async (bookId: number, newStock: number) => {
+  const { data: book } = await axiosURL.get(`/books/${bookId}`);
 
-export const fetchUsers = async (): Promise<IUser[]> => {
-  const response = await axios.get(usersURL);
-  return response.data;
-};
+  const updatedBook = { ...book, stock: newStock };
 
-export const addUser = async (user: { email: string; password: string }) => {
-  const response = await axios.post(usersURL, user);
+  const response = await axiosURL.put(`/books/${bookId}`, updatedBook);
   return response.data;
 };

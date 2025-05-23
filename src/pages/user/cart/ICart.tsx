@@ -1,4 +1,4 @@
-import { ILendItem } from "../ILendItem";
+import { ILendItem } from "../books/ILendItem";
 
 export interface ICart {
   id: number;

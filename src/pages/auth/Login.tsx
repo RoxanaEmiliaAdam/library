@@ -18,12 +18,13 @@ const Login = () => {
   const loginMutation = useMutation({
     mutationFn: () => logIn({ email, password }),
     onSuccess: (user) => {
-      console.log(user);
+      console.log("Logged in user:", user);
 
       if (user) {
         console.log(user);
         localStorage.setItem("userEmail", JSON.stringify(user.email)); // store user info
         localStorage.setItem("userRole", JSON.stringify(user.role));
+        localStorage.setItem("userId", JSON.stringify(user.id));
 
         navigate(
           user.email === "admin@bookly.com"

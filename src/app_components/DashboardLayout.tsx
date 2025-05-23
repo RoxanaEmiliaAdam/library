@@ -59,19 +59,17 @@ const DashboardLayout: React.FC<Props> = ({
               <Button onClick={() => navigate("/admin/manage-users")}>
                 Manage Users
               </Button>
+              <Button onClick={() => navigate("/admin/add-book")}>
+                Add Book
+              </Button>
             </>
           ) : (
             <>
-              <Button
-                variant="destructive"
-                onClick={() => navigate("/user/cart")}
-              >
-                Cart
-              </Button>
+              <Button onClick={() => navigate("/user/cart")}>Cart</Button>
               <Button onClick={() => navigate("/user/profile")}>Profile</Button>
             </>
           )}
-          <Button variant="destructive" onClick={handleLogout}>
+          <Button variant="secondary" onClick={handleLogout}>
             Logout
           </Button>
         </div>

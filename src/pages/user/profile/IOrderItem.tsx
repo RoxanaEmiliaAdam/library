@@ -1,6 +1,7 @@
 export interface IOrderItem {
   id: number;
   title: string;
+  quantity: number;
   returnDate: string;
 }
 
@@ -9,7 +10,7 @@ export interface IOrder {
   id?: number; // created by server
   userId: number;
   items: IOrderItem[];
-  status: string;
+  status: "pending" | "returned" | string;
   createdAt: string;
 }
 

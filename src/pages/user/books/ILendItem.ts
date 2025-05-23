@@ -3,4 +3,6 @@ export interface ILendItem {
   title: string;
   returnDate: string;
   coverImage: string;
+  stock: number;
+  quantity: number;
 }

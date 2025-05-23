@@ -4,8 +4,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import FetchBooks from "./FetchBooks";
 import { ILendItem } from "./ILendItem";
 import { IBook } from "./IBook";
-import { fetchCart, addItemToCart, createNewCart } from "./cart/CartService";
-import { ICart } from "./cart/ICart";
+import { fetchCart, addItemToCart, createNewCart } from "../cart/CartService";
+import { ICart } from "../cart/ICart";
 import { queryClient } from "@/main";
 import DashboardLayout from "@/app_components/DashboardLayout";
 
@@ -23,7 +23,13 @@ const UserDashboard: React.FC = () => {
   });
 
   const { mutate: addToCartMutation } = useMutation({
-    mutationFn: async (book: IBook) => {
+    mutationFn: async ({
+      book,
+      quantity,
+    }: {
+      book: IBook;
+      quantity: number;
+    }) => {
       const returnDate = new Date();
       returnDate.setDate(returnDate.getDate() + 14);
 
@@ -32,10 +38,14 @@ const UserDashboard: React.FC = () => {
         title: book.title,
         returnDate: returnDate.toISOString().split("T")[0],
         coverImage: book.coverImage,
+        stock: book.stock,
+        quantity: quantity,
       };
 
       if (cartData) {
-        return await addItemToCart(cartData, lendItem);
+        if (book.stock > 0) {
+          return await addItemToCart(cartData, lendItem);
+        } else return console.log("stock 0");
       } else {
         return await createNewCart(userEmail, userId, lendItem);
       }
@@ -58,7 +68,7 @@ const UserDashboard: React.FC = () => {
 
   const handleAddToCart = (book: IBook) => {
     if (!cartData?.cartBooksList.some((item) => item.id === book.id)) {
-      addToCartMutation(book);
+      addToCartMutation({ book, quantity: 1 });
     }
   };
 

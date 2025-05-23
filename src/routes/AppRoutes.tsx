@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserDashboard from "@/pages/user/UserDashboard";
+import UserDashboard from "@/pages/user/books/UserDashboard";
 
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import ManageUsers from "@/pages/admin/ManageUsers";
@@ -10,6 +10,8 @@ import Login from "@/pages/auth/Login";
 import Cart from "@/pages/user/cart/Cart";
 import Profile from "@/pages/user/profile/Profile";
 import ManageBooks from "@/pages/admin/ManageBooks";
+import AddBook from "@/pages/admin/AddBook";
+import OrderHistory from "@/pages/admin/OrderHistory";
 
 const AppRoutes = () => {
   return (
@@ -36,7 +38,12 @@ const AppRoutes = () => {
             </AdminRoutes>
           }
         />
+        <Route path="/admin/add-book" element={<AddBook />} />
         <Route path="/admin/manage-users" element={<ManageUsers />} />
+        <Route
+          path="/admin/manage-users/order-history"
+          element={<OrderHistory />}
+        />
         <Route path="/admin/manage-books/:bookId" element={<ManageBooks />} />
         <Route path="/unauthorized" element={<h1>Unauthorized Access</h1>} />
         <Route path="*" element={<h1>404 Not Found</h1>} />

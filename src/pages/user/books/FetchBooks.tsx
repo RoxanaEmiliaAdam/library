@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { IBook } from "./IBook";
+
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import getAllBooks from "./PostService";
 
 import { useNavigate } from "react-router-dom";
+import { IBook } from "./IBook";
+import getAllBooks from "./PostService";
 
 type Props = {
   search: string;
@@ -67,18 +68,21 @@ const FetchBooks: React.FC<Props> = ({
               <CardContent>
                 {isAdmin ? (
                   <Button
-                    variant="destructive"
                     onClick={() => navigate(`/admin/manage-books/${book.id}`)}
                   >
                     Manage Books
                   </Button>
                 ) : (
                   <Button
-                    disabled={addedBooks?.includes(book.id)}
+                    disabled={book.stock === 0 || addedBooks?.includes(book.id)}
                     onClick={() => handleAddToCart(book)}
                     className="mt-2"
                   >
-                    {addedBooks?.includes(book.id) ? "Added" : "Add to Cart"}
+                    {book.stock === 0
+                      ? "Out of Stock"
+                      : addedBooks?.includes(book.id)
+                      ? "Added to Cart"
+                      : "Add to Cart"}
                   </Button>
                 )}
               </CardContent>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-
+import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -18,22 +18,39 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { fetchCart, removeCart, removeItemFromCart } from "./CartService";
-import { createOrder } from "../profile/OrderService";
+import { createOrder, fetchOrders } from "../profile/OrderService";
 import { ICart } from "./ICart";
-import { ILendItem } from "../ILendItem";
+import { ILendItem } from "../books/ILendItem";
+
+import { IBook } from "../books/IBook";
 import ReturnToBookListButton from "@/app_components/ReturnToBookListButton";
+
 import { queryClient } from "@/main";
+import { IOrder } from "../profile/IOrderItem";
+import { updateBookStock } from "../books/PostService";
 
 const Cart: React.FC = () => {
   const userEmail = JSON.parse(localStorage.getItem("userEmail") || '""');
+  const userId = Number(localStorage.getItem("userId") || "0");
 
   const [successMessage, setSuccessMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // fetch cart
   const { data: cartData, isLoading } = useQuery<ICart | null>({
-    queryKey: ["cart", userEmail],
+    queryKey: ["cart", userId],
     queryFn: () => fetchCart(userEmail),
   });
+
+  // fetch user orders
+
+  const { data: orders } = useQuery<IOrder[]>({
+    queryKey: ["orders"],
+    queryFn: () => fetchOrders(userId),
+  });
+
+  // check if any pending order for user
+  const hasPendingOrder = orders?.some((order) => order.status === "pending");
 
   const handleRemoveItem = async (itemId: number) => {
     if (!cartData) return;
@@ -46,15 +63,27 @@ const Cart: React.FC = () => {
       if (!cartData || cartData.cartBooksList.length === 0) return;
 
       // 1. Create the order
-      await createOrder(cartData.userId, cartData.cartBooksList);
+      await createOrder(userId, cartData.cartBooksList);
 
-      // 2. Clear the cart
+      // 2. update stock
+      await Promise.all(
+        cartData.cartBooksList.map(async (item) => {
+          const { data: latestBook } = await axios.get<IBook>(
+            `http://localhost:3000/books/${item.id}`
+          );
+          const newStock = Math.max(0, latestBook.stock - 1);
+          await updateBookStock(item.id, newStock);
+        })
+      );
+
+      // 3. Clear the cart
       await removeCart(cartData.id);
-      console.log("Cart removed");
     },
     onSuccess: () => {
       console.log("Order placed, clearing UI...");
       queryClient.invalidateQueries({ queryKey: ["cart", userEmail] });
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+
       setIsDialogOpen(false);
       setSuccessMessage("✅ Order placed successfully!");
 
@@ -70,7 +99,7 @@ const Cart: React.FC = () => {
   const cartItems = cartData?.cartBooksList || [];
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-10">
       <ReturnToBookListButton />
 
       <h2 className="text-xl font-bold">Your Cart</h2>
@@ -96,7 +125,10 @@ const Cart: React.FC = () => {
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.returnDate}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleRemoveItem(item.id)}>
+                  <Button
+                    variant={"destructive"}
+                    onClick={() => handleRemoveItem(item.id)}
+                  >
                     Remove
                   </Button>
                 </TableCell>
@@ -108,7 +140,12 @@ const Cart: React.FC = () => {
 
       {cartItems.length > 0 && (
         <>
-          <Button onClick={() => setIsDialogOpen(true)}>Place Order</Button>
+          <Button
+            onClick={() => setIsDialogOpen(true)}
+            disabled={hasPendingOrder}
+          >
+            {hasPendingOrder ? "Pending Order Exists" : "Place Order"}
+          </Button>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogContent>
               <DialogHeader>
