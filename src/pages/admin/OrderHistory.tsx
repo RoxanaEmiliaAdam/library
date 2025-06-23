@@ -36,7 +36,7 @@ const OrderHistory: React.FC = () => {
   if (!orders || orders.length === 0) return <p>No past orders found.</p>;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="w-[500px] p-6 space-y-6">
       <Button
         className="text-blue-500 hover:text-blue-700 underline bg-transparent border-none p-0"
         onClick={returnToManageUsers}

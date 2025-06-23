@@ -29,7 +29,7 @@ const DashboardLayout: React.FC<Props> = ({
   };
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-4 space-y-6 w-full max-w-screen-2xl mx-auto">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
         <div className="flex gap-2 flex-col md:flex-row w-full">
           <Input

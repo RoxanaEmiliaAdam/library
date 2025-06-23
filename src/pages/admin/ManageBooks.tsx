@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import React from "react";
 import { useState } from "react";
 import { IOrder, IOrderItem } from "../user/profile/IOrderItem";
@@ -9,16 +9,13 @@ import { updateBookStock } from "../user/books/PostService";
 import { useParams } from "react-router-dom";
 import ReturnToBookListButton from "@/app_components/ReturnToBookListButton";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+
 import { Input } from "@/components/ui/input";
 import { queryClient } from "@/main";
 import { useNavigate } from "react-router-dom";
+import { fetchUsers } from "./UserService";
+import { deleteBook, fetchAllOrders, fetchBooks } from "./BookService";
+import ConfirmDialog from "@/app_components/ConfirmDialog";
 
 const ManageBooks: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -39,28 +36,19 @@ const ManageBooks: React.FC = () => {
     error,
   } = useQuery<IOrder[]>({
     queryKey: ["orders"],
-    queryFn: async () => {
-      const res = await axios.get<IOrder[]>("http://localhost:3000/orders");
-      return res.data;
-    },
+    queryFn: fetchAllOrders,
   });
 
   // fetch users
   const { data: users } = useQuery<IUser[]>({
     queryKey: ["users"],
-    queryFn: async () => {
-      const res = await axios.get<IUser[]>("http://localhost:3000/users");
-      return res.data;
-    },
+    queryFn: fetchUsers,
   });
 
   // fetch the selected book
   const { data: books } = useQuery<IBook[]>({
     queryKey: ["books"],
-    queryFn: async () => {
-      const res = await axios.get<IBook[]>("http://localhost:3000/books");
-      return res.data;
-    },
+    queryFn: fetchBooks,
   });
   const book = books?.find((b) => b.id === bookIdNum);
 
@@ -90,7 +78,7 @@ const ManageBooks: React.FC = () => {
 
   // delete book
   const handleDeleteBook = async () => {
-    await axios.delete(`http://localhost:3000/books/${bookIdNum}`);
+    await deleteBook(bookIdNum);
     queryClient.invalidateQueries({ queryKey: ["books"] });
     setIsDeleteDialogOpen(false);
     navigate("/admin/dashboard");
@@ -116,7 +104,7 @@ const ManageBooks: React.FC = () => {
   return (
     <>
       <ReturnToBookListButton />
-      <div className="mt-4 p-4 border rounded space-y-10">
+      <div className="w-[500px]mt-4 p-4 border rounded space-y-10">
         {/* Stock Section */}
         <div className="mb-4">
           <h3 className="text-lg font-semibold">Title: {book?.title}</h3>
@@ -185,68 +173,43 @@ const ManageBooks: React.FC = () => {
         </div>
       </div>
       {/* Dialog */}
-      <Dialog open={isStockDialogOpen} onOpenChange={setIsStockDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {stockActionType === "add" ? "Add Stock" : "Remove Stock"}
-            </DialogTitle>
-          </DialogHeader>
-          <Input
-            type="number"
-            value={stockChangeAmount}
-            onChange={(e) => {
-              const value = Number(e.target.value);
-              if (value < 0) {
-                setStockChangeAmount(0);
-              } else if (
-                stockActionType === "remove" &&
-                value > (book?.stock ?? 0)
-              ) {
-                setStockChangeAmount(book?.stock ?? 0);
-              } else {
-                setStockChangeAmount(value);
-              }
-            }}
-            placeholder="Enter number of pieces"
-          />
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsStockDialogOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handleConfirmStockChange}>
-              {updateStockMutation.isPending ? "Updating..." : "Confirm"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
+      <ConfirmDialog
+        open={isStockDialogOpen}
+        title={stockActionType === "add" ? "Add Stock" : "Remove Stock"}
+        onCancel={() => setIsStockDialogOpen(false)}
+        onConfirm={handleConfirmStockChange}
+        confirmText="Confirm"
+        isLoading={updateStockMutation.isPending}
+      >
+        <Input
+          type="number"
+          value={stockChangeAmount}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (value < 0) {
+              setStockChangeAmount(0);
+            } else if (
+              stockActionType === "remove" &&
+              value > (book?.stock ?? 0)
+            ) {
+              setStockChangeAmount(book?.stock ?? 0);
+            } else {
+              setStockChangeAmount(value);
+            }
+          }}
+          placeholder="Enter number of pieces"
+        />
+      </ConfirmDialog>
       {/*  delete confirmation dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
-          </DialogHeader>
-          <p>
-            Are you sure you want to delete <strong>{book?.title}</strong>? This
-            action cannot be undone.
-          </p>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDeleteBook}>
-              Confirm Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={isDeleteDialogOpen}
+        title="Confirm Deletion"
+        description={`Are you sure you want to delete "${book?.title}"? This action cannot be undone.`}
+        onCancel={() => setIsDeleteDialogOpen(false)}
+        onConfirm={handleDeleteBook}
+        confirmVariant="destructive"
+        confirmText="Confirm Delete"
+      />
     </>
   );
 };

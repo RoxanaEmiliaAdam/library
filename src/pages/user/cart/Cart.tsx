@@ -2,13 +2,6 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
   Table,
   TableHeader,
   TableBody,
@@ -28,6 +21,7 @@ import ReturnToBookListButton from "@/app_components/ReturnToBookListButton";
 import { queryClient } from "@/main";
 import { IOrder } from "../profile/IOrderItem";
 import { updateBookStock } from "../books/PostService";
+import ConfirmDialog from "@/app_components/ConfirmDialog";
 
 const Cart: React.FC = () => {
   const userEmail = JSON.parse(localStorage.getItem("userEmail") || '""');
@@ -52,11 +46,15 @@ const Cart: React.FC = () => {
   // check if any pending order for user
   const hasPendingOrder = orders?.some((order) => order.status === "pending");
 
-  const handleRemoveItem = async (itemId: number) => {
-    if (!cartData) return;
-    await removeItemFromCart(cartData, itemId);
-    queryClient.invalidateQueries({ queryKey: ["cart", userEmail] });
-  };
+  const removeItemMutation = useMutation({
+    mutationFn: async (itemId: number) => {
+      if (!cartData) return;
+      await removeItemFromCart(cartData, itemId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart", userEmail] });
+    },
+  });
 
   const placeOrderMutation = useMutation({
     mutationFn: async () => {
@@ -99,7 +97,7 @@ const Cart: React.FC = () => {
   const cartItems = cartData?.cartBooksList || [];
 
   return (
-    <div className="p-4 space-y-10">
+    <div className="w-[500px] p-4 space-y-10">
       <ReturnToBookListButton />
 
       <h2 className="text-xl font-bold">Your Cart</h2>
@@ -127,7 +125,7 @@ const Cart: React.FC = () => {
                 <TableCell>
                   <Button
                     variant={"destructive"}
-                    onClick={() => handleRemoveItem(item.id)}
+                    onClick={() => removeItemMutation.mutate(item.id)}
                   >
                     Remove
                   </Button>
@@ -146,30 +144,14 @@ const Cart: React.FC = () => {
           >
             {hasPendingOrder ? "Pending Order Exists" : "Place Order"}
           </Button>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Confirm Order</DialogTitle>
-              </DialogHeader>
-              <p>Do you want to place this order? This will clear your cart.</p>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                  disabled={placeOrderMutation.isPending}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => placeOrderMutation.mutate()}
-                  disabled={placeOrderMutation.isPending}
-                >
-                  {placeOrderMutation.isPending ? "Placing..." : "Confirm"}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <ConfirmDialog
+            open={isDialogOpen}
+            title="Confirm Order"
+            description="Do you want to place this order? This will clear your cart."
+            onCancel={() => setIsDialogOpen(false)}
+            onConfirm={() => placeOrderMutation.mutate()}
+            isLoading={placeOrderMutation.isPending}
+          />
         </>
       )}
     </div>

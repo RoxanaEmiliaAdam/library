@@ -9,14 +9,9 @@ import { updateBookStock } from "../books/PostService";
 import axios from "axios";
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
+
 import { queryClient } from "@/main";
+import ConfirmDialog from "@/app_components/ConfirmDialog";
 
 const Profile: React.FC = () => {
   const userId = Number(localStorage.getItem("userId")) || 0;
@@ -65,7 +60,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="w-[500px] space-y-4">
       <ReturnToBookListButton />
       <Card>
         <CardTitle>Your Orders</CardTitle>
@@ -110,37 +105,30 @@ const Profile: React.FC = () => {
 
       {/* Order openOrderDetails */}
       {selectedOrder && (
-        <Dialog open={!!selectedOrder} onOpenChange={closeOrderDetails}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Order #{selectedOrder.id}</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-2">
-              <p>Status: {selectedOrder.status}</p>
-              <p>
-                Ordered on: {new Date(selectedOrder.createdAt).toLocaleString()}
-              </p>
-
-              <ul>
-                {selectedOrder.items.map((item, idx) => (
-                  <li key={idx}>
-                    {" "}
-                    <p>Title: {item.title}</p>
-                    <p>
-                      Return Date:{" "}
-                      {new Date(item.returnDate).toLocaleDateString()}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={closeOrderDetails}>
-                Close
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <ConfirmDialog
+          open={!!selectedOrder}
+          title={`Order #${selectedOrder.id}`}
+          onCancel={closeOrderDetails}
+          showFooter={true}
+        >
+          <div className="space-y-2">
+            <p>Status: {selectedOrder.status}</p>
+            <p>
+              Ordered on: {new Date(selectedOrder.createdAt).toLocaleString()}
+            </p>
+            <ul className="pl-4 list-disc space-y-2">
+              {selectedOrder.items.map((item, idx) => (
+                <li key={idx}>
+                  <p>Title: {item.title}</p>
+                  <p>
+                    Return Date:{" "}
+                    {new Date(item.returnDate).toLocaleDateString()}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </ConfirmDialog>
       )}
     </div>
   );

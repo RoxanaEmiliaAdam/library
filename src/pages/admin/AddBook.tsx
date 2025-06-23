@@ -53,7 +53,7 @@ const AddBook: React.FC = () => {
     <>
       <ReturnToBookListButton />
       <div className="max-w-xl mx-auto p-6 border rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Add New Book</h2>
+        <h2 className="w-[500px] text-xl font-bold mb-4">Add New Book</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"

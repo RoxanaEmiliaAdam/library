@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Card className="w-full max-w-sm p-6 shadow-lg">
+      <Card className="w-full max-w-sm p-10 shadow-lg">
         <CardHeader>
           <CardTitle className="text-center text-xl">Login</CardTitle>
         </CardHeader>
@@ -68,7 +68,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required // Ensures the email field is not empty before submission
-            className="mb-3"
+            className="mb-5"
           />
 
           <Input
@@ -77,7 +77,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="mb-4"
+            className="mb-5"
           />
 
           <Button

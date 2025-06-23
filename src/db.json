@@ -163,7 +163,7 @@
         {
           "id": 2,
           "title": "The Hunger Games",
-          "returnDate": "2025-06-06",
+          "returnDate": "2025-06-30",
           "coverImage": "http://localhost:3000/images/book-8.png",
           "stock": 4,
           "quantity": 1

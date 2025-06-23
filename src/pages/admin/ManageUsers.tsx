@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "./ServiceManageUsers";
+import { fetchUsers } from "./UserService";
 import { IUser } from "../auth/IUser";
 import {
   Table,
@@ -28,39 +28,41 @@ function ManageUsers() {
   if (isLoading) return <p>Loading users...</p>;
   if (error) return <p>Failed to load users.</p>;
   return (
-    <div>
+    <>
       <ReturnToBookListButton />
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Password</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {users?.map((user: IUser) => (
-            <TableRow key={user.id}>
-              <TableCell>{user.id}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.password}</TableCell>
-
-              <TableCell>
-                <Button
-                  onClick={() =>
-                    navigate(
-                      `/admin/manage-users/order-history?userId=${user.id}`
-                    )
-                  }
-                >
-                  Order History
-                </Button>
-              </TableCell>
+      <div className="w-[500px] mx-auto p-6 border rounded shadow">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Password</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+          </TableHeader>
+          <TableBody>
+            {users?.map((user: IUser) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.id}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.password}</TableCell>
+
+                <TableCell>
+                  <Button
+                    onClick={() =>
+                      navigate(
+                        `/admin/manage-users/order-history?userId=${user.id}`
+                      )
+                    }
+                  >
+                    Order History
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 }
 

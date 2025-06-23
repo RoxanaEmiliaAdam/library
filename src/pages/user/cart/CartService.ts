@@ -56,9 +56,3 @@ export const removeItemFromCart = async (
   const response = await axios.put<ICart>(`${cartURL}/${cart.id}`, updatedCart);
   return response.data;
 };
-
-// // Clear all carts (admin utility)
-// export const clearCart = async () => {
-//   const { data } = await axios.get<ICart[]>(cartURL);
-//   await Promise.all(data.map((cart) => axios.delete(`${cartURL}/${cart.id}`)));
-// };
