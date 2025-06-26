@@ -6,7 +6,7 @@
       "description": "Katie is driving to work one beautiful day when a dead man jumps into her car and tries to eat her.  That same morning, Jenni opens a bedroom door to find her husband devouring their toddler son. ",
       "category": "horror",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-7.png",
+      "coverImage": "../public/images/book-7.png",
       "stock": 1,
       "initialStock": 1
     },
@@ -16,7 +16,7 @@
       "description": "Could you survive on your own in the wild, with every one out to make sure you don't live to see the morning?",
       "category": "fiction",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-8.png",
+      "coverImage": "../public/images/book-8.png",
       "stock": 4,
       "initialStock": 5
     },
@@ -26,7 +26,7 @@
       "description": "Harry Potter is about to start his fifth year at Hogwarts School of Witchcraft and Wizardry. Unlike most schoolboys, Harry never enjoys his summer holidays",
       "category": "adventure",
       "trending": false,
-      "coverImage": "http://localhost:3000/images/book-9.png",
+      "coverImage": "../public/images/book-9.png",
       "stock": 8,
       "initialStock": 8
     },
@@ -36,7 +36,7 @@
       "description": "The romantic clash between the opinionated Elizabeth and her proud beau, Mr. Darcy, is a splendid performance of civilized sparring.",
       "category": "fiction",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-10.png",
+      "coverImage": "../public/images/book-10.png",
       "stock": 4,
       "initialStock": 4
     },
@@ -46,7 +46,7 @@
       "description": "The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it. 'To Kill A Mockingbird' became both an instant bestseller",
       "category": "fiction",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-11.png",
+      "coverImage": "../public/images/book-11.png",
       "stock": 5,
       "initialStock": 5
     },
@@ -56,7 +56,7 @@
       "description": "Despite the tumor-shrinking medical miracle that has bought her a few years, Hazel has never been anything but terminal, her final chapter inscribed upon diagnosis. ",
       "category": "business",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-12.png",
+      "coverImage": "../public/images/book-12.png",
       "stock": 3,
       "initialStock": 3
     },
@@ -66,7 +66,7 @@
       "description": "Oscar Wilde’s only novel is the dreamlike story of a young man who sells his soul for eternal youth and beauty.",
       "category": "horror",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-13.png",
+      "coverImage": "../public/images/book-13.png",
       "stock": 5,
       "initialStock": 5
     },
@@ -76,7 +76,7 @@
       "description": "'Once there was a tree...and she loved a little boy.'So begins a story of unforgettable perception, beautifully written and illustrated by the gifted and versatile Shel Silverstein.",
       "category": "fiction",
       "trending": false,
-      "coverImage": "http://localhost:3000/images/book-14.png",
+      "coverImage": "../public/images/book-14.png",
       "stock": 4,
       "initialStock": 4
     },
@@ -86,7 +86,7 @@
       "description": "Scarlett O'Hara, the beautiful, spoiled daughter of a well-to-do Georgia plantation owner, must use every means at her disposal to claw her way out of the poverty she finds herself in after Sherman's March to the Sea.",
       "category": "fiction",
       "trending": false,
-      "coverImage": "http://localhost:3000/images/book-15.png",
+      "coverImage": "../public/images/book-15.png",
       "stock": 5,
       "initialStock": 5
     },
@@ -96,7 +96,7 @@
       "description": "Percy Jackson is a good kid, but he can't seem to focus on his schoolwork or control his temper. And lately, being away at boarding school is only getting worse - Percy could have sworn his pre-algebra teacher turned into a monster and tried to kill him",
       "category": "fiction",
       "trending": false,
-      "coverImage": "http://localhost:3000/images/book-16.png",
+      "coverImage": "../public/images/book-16.png",
       "stock": 5,
       "initialStock": 5
     },
@@ -106,7 +106,7 @@
       "description": "When Alice sees a white rabbit take a watch out of its waistcoat pocket she decides to follow it, and a sequence of most unusual events is set in motion. This mini book contains the entire topsy-turvy stories of Alice's Adventures in Wonderland",
       "category": "adventure",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-17.png",
+      "coverImage": "../public/images/book-17.png",
       "stock": 5,
       "initialStock": 5
     },
@@ -116,7 +116,7 @@
       "description": "On an appointed day of every year, all sixteen-year-olds must select the faction to which they will devote the rest of their lives. For Beatrice, the decision is between staying with her family and being who she really is",
       "category": "business",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-18.png",
+      "coverImage": "../public/images/book-18.png",
       "stock": 5,
       "initialStock": 5
     },
@@ -126,7 +126,7 @@
       "description": "Paulo Coelho's masterpiece tells the mystical story of Santiago, an Andalusian shepherd boy who yearns to travel in search of a worldly treasure.",
       "category": "adventure",
       "trending": true,
-      "coverImage": "http://localhost:3000/images/book-19.png",
+      "coverImage": "../public/images/book-19.png",
       "stock": 5,
       "initialStock": 5
     },
@@ -136,7 +136,7 @@
       "description": "Nobody needs to be told there isn’t enough time. We’re obsessed with our lengthening to-do lists, overfilled inboxes, work-life balance, and ceaseless battle against distraction; we’re deluged with advice on becoming more productive and efficient",
       "category": "business",
       "trending": false,
-      "coverImage": "http://localhost:3000/images/book-20.png",
+      "coverImage": "../public/images/book-20.png",
       "stock": 5,
       "initialStock": 5
     }
