@@ -46,37 +46,46 @@ const FetchBooks: React.FC<Props> = ({
         </p>
       )}
       {/* Book List */}
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {books && books.length > 0 ? (
           books.map((book) => (
-            <Card key={book.id}>
-              <div>
-                <CardTitle>{book.title}</CardTitle>
-                <CardContent>
-                  <h2 className="font-semibold">Category: {book.category}</h2>
-                  <p className="text-sm text-muted-foreground">
-                    {book.description}
-                  </p>
-                  <img
-                    src={book.coverImage}
-                    alt={book.title}
-                    className="w-full h-auto mt-2 rounded-lg"
-                  />
-                </CardContent>
-              </div>
+            <Card
+              key={book.id}
+              className="flex flex-col justify-between min-h-[400px]"
+            >
+              <CardContent className="space-y-2 ">
+                <CardTitle className="text-lg font-semibold min-h-[55px]">
+                  {book.title}
+                </CardTitle>
+                <p className=" min-h-[30px]">
+                  <span className="font-semibold">Category:</span>{" "}
+                  {book.category}
+                </p>
+
+                <div className="min-h-[200px] text-sm text-muted-foreground ">
+                  {book.description}
+                </div>
+
+                <img
+                  src={book.coverImage}
+                  alt={book.title}
+                  className="w-full h-48 object-contain bg-white rounded-md "
+                />
+              </CardContent>
 
               <CardContent>
                 {isAdmin ? (
                   <Button
+                    className="w-full"
                     onClick={() => navigate(`/admin/manage-books/${book.id}`)}
                   >
-                    Manage Books
+                    Manage Book
                   </Button>
                 ) : (
                   <Button
+                    className="w-full"
                     disabled={book.stock === 0 || addedBooks?.includes(book.id)}
                     onClick={() => handleAddToCart(book)}
-                    className="mt-2"
                   >
                     {book.stock === 0
                       ? "Out of Stock"
